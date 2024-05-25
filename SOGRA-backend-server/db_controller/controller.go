@@ -10,14 +10,29 @@ import (
 )
 
 var (
-	DBConn *gorm.DB
+	UsersDBConn  *gorm.DB
+	EventsDBConn *gorm.DB
 )
 
-func InitDB() {
+func userDBInit() {
 	var err error
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/", common.DbID, common.DbPassword, common.DbAddr)
-	DBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/users", common.DbID, common.DbPassword, common.DbAddr)
+	UsersDBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
+}
+
+func eventDBInit() {
+	var err error
+	dsn := fmt.Sprintf("%s:%s@tcp(%s)/events", common.DbID, common.DbPassword, common.DbAddr)
+	EventsDBConn, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+}
+
+func InitDB() {
+	userDBInit()
+	eventDBInit()
 }

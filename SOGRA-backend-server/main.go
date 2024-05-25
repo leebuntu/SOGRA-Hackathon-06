@@ -2,9 +2,10 @@ package main
 
 import (
 	"SOGRA/db_controller"
+	"SOGRA/router"
 )
 
 func main() {
-	//router.InitServer()
-	db_controller.InitDB()
+	db_controller.InitDB() // Init database
+	router.InitServer()    // Init gin router
 }
