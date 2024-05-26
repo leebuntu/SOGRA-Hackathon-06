@@ -1,0 +1,3 @@
+*.sh
+SOGRA-backend-server/SOGRA
+SOGRA-backend-server/common/vars.go
