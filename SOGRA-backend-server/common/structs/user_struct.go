@@ -12,16 +12,6 @@ type RegisterRequest struct {
 	Profile  string `json:"profile"`
 }
 
-type User struct {
-	User_id           int
-	Id                string
-	Password          string
-	Email             string
-	Profile_image     string
-	Saved_event_list  int
-	Saved_course_list int
-}
-
 type GetUsersSaveResponse struct {
 	SaveEventList []int `json:"save_event_list"`
 }

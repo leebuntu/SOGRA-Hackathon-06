@@ -14,6 +14,14 @@ var (
 	EventsDBConn *gorm.DB
 )
 
+func IsValueExist(table string, dest interface{}, query interface{}, args ...interface{}) bool {
+	return UsersDBConn.Table(table).Where(query, args...).First(&dest).Error == nil
+}
+
+func InsertValue(table string, dest interface{}) {
+	UsersDBConn.Table(table).Create(&dest).Last(&dest)
+}
+
 func userDBInit() {
 	var err error
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/users", common.DbID, common.DbPassword, common.DbAddr)

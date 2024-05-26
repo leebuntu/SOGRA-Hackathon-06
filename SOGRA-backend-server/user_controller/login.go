@@ -6,22 +6,21 @@ import (
 
 	"github.com/gin-gonic/gin"
 
+	"SOGRA/common"
 	common_struct "SOGRA/common/structs"
 	"SOGRA/db_controller"
 )
 
 func IsCorrectInfo(info common_struct.LoginRequest) bool {
-	p := common_struct.User{}
-	err := db_controller.UsersDBConn.Table("user").Where("id = ? AND password = ?", info.ID, info.Password).First(&p).Error
-
-	return err == nil
+	c := common_struct.User{}
+	return db_controller.IsValueExist("user", &c, "id = ? AND password = ?", info.ID, info.Password)
 }
 
 func GetLoginManager(c *gin.Context) {
 	info := common_struct.LoginRequest{}
 
 	if err := c.ShouldBindJSON(&info); err != nil {
-		c.JSON(400, gin.H{"message": "Invalid JSON format"})
+		c.JSON(400, gin.H{"message": common.IncorrectJson})
 		return
 	}
 
@@ -35,11 +34,11 @@ func GetLoginManager(c *gin.Context) {
 
 	if IsCorrectInfo(info) {
 		c.JSON(200, gin.H{
-			"message": "success",
+			"token": common.Sucess,
 		})
 	} else {
 		c.JSON(400, gin.H{
-			"message": "Incorrect ID or Password. Please try again.",
+			"message": common.IncorrectInfo,
 		})
 
 	}
